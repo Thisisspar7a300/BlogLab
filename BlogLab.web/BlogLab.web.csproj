@@ -14,7 +14,7 @@
     <ProjectReference Include="..\BlogLab.Models\BlogLab.Models.csproj" />
     <ProjectReference Include="..\BlogLab.Repository\BlogLab.Repository.csproj" />
     <ProjectReference Include="..\BlogLab.Services\BlogLab.Services.csproj" />
-    <ProjectReference Include="..\BlogLabIdentity\BlogLabIdentity.csproj" />
+    <ProjectReference Include="..\BlogLabIdentity\BlogLab.Identity.csproj" />
   </ItemGroup>
 
 </Project>

@@ -46,7 +46,7 @@ namespace BlogLab.Repository
             {
                 await connection.OpenAsync();
 
-                using (var multi = await connection.QueryMultipleAsync("Blog_All",
+                using (var multi = await connection.QueryMultipleAsync("Blog_GetAll",
                     new { 
                         offset = (blogPagging.page - 1) * blogPagging.PageSize,
                         PageSize = blogPagging.PageSize
@@ -68,7 +68,8 @@ namespace BlogLab.Repository
             {
                 await connection.OpenAsync();
 
-                blogs = await connection.QueryAsync<Blog>("Blog_GetByUserId",
+                blogs = await connection.QueryAsync<Blog>(
+                    "Blog_GetByUserId",
                     new { ApplicationUserId = applicationUserId },
                     commandType: CommandType.StoredProcedure);
             }

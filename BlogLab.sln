@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogLab.Models", "BlogLab.M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogLab.Repository", "BlogLab.Repository\BlogLab.Repository.csproj", "{9D1BC8B5-7E43-48FB-9A94-1D1CC1750C7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogLabIdentity", "BlogLabIdentity\BlogLabIdentity.csproj", "{501AEE1C-92D8-4F55-8CFB-6DF87231A2BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogLab.Identity", "BlogLabIdentity\BlogLab.Identity.csproj", "{501AEE1C-92D8-4F55-8CFB-6DF87231A2BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogLab.Services", "BlogLab.Services\BlogLab.Services.csproj", "{890C3F56-B336-4EF0-85A1-D8C1F7C6B59E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogLab.Services", "BlogLab.Services\BlogLab.Services.csproj", "{890C3F56-B336-4EF0-85A1-D8C1F7C6B59E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
