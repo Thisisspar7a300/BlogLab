@@ -75,7 +75,9 @@ namespace BlogLab.Repository
             return blogs.ToList();
         }
 
-        public async Task<List<Blog>> GetAllFamouseAsync()
+       
+
+        public async Task<List<Blog>> GetAllFamousAsync()
         {
             IEnumerable<Blog> famouseBlogs;
 

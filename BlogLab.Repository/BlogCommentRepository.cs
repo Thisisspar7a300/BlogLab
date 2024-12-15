@@ -97,5 +97,10 @@ namespace BlogLab.Repository
 
             return blogComment;
         }
+
+        Task<BlogComment> IBlogCommentRepository.GetAllAsync(int blogId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

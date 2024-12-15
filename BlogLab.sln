@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogLab.Repository", "BlogL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogLabIdentity", "BlogLabIdentity\BlogLabIdentity.csproj", "{501AEE1C-92D8-4F55-8CFB-6DF87231A2BD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogLab.Services", "BlogLab.Services\BlogLab.Services.csproj", "{890C3F56-B336-4EF0-85A1-D8C1F7C6B59E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{501AEE1C-92D8-4F55-8CFB-6DF87231A2BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{501AEE1C-92D8-4F55-8CFB-6DF87231A2BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{501AEE1C-92D8-4F55-8CFB-6DF87231A2BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{890C3F56-B336-4EF0-85A1-D8C1F7C6B59E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{890C3F56-B336-4EF0-85A1-D8C1F7C6B59E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{890C3F56-B336-4EF0-85A1-D8C1F7C6B59E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{890C3F56-B336-4EF0-85A1-D8C1F7C6B59E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
