@@ -10,7 +10,7 @@ namespace BlogLab.web.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly ITokenService _tokenServices;
+        private readonly ITokenService _tokenService;
         private readonly UserManager<ApplicationUserIdentity> _userManager;
         private readonly SignInManager<ApplicationUserIdentity> _signInManager;
 
@@ -18,7 +18,7 @@ namespace BlogLab.web.Controllers
             UserManager<ApplicationUserIdentity> userManager,
             SignInManager<ApplicationUserIdentity> signInManager)
         {
-            _tokenServices = tokenService;
+            _tokenService = tokenService;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -33,21 +33,25 @@ namespace BlogLab.web.Controllers
                 Fullname = applicationUserCreate.Fullname
             };
 
-            var results = await _userManager.CreateAsync(applicationUserIdentity, applicationUserCreate.Password);
+            var result = await _userManager.CreateAsync(applicationUserIdentity, applicationUserCreate.Password);
 
-            if (results.Succeeded)
+            if (result.Succeeded)
             {
-                ApplicationUser applicatonUser = new ApplicationUser()
+                applicationUserIdentity = await _userManager.FindByNameAsync(applicationUserCreate.Username);
+
+                ApplicationUser applicationUser = new ApplicationUser()
                 {
                     ApplicationUserId = applicationUserIdentity.ApplicationUserId,
                     UserName = applicationUserIdentity.Username,
                     Email = applicationUserIdentity.Email,
                     Fullname = applicationUserIdentity.Fullname,
-                    Token = _tokenServices.CreateToken(applicationUserIdentity)
+                    Token = _tokenService.CreateToken(applicationUserIdentity)
                 };
-                return Ok(applicatonUser);
+
+                return Ok(applicationUser);
             }
-            return BadRequest(results.Errors);
+
+            return BadRequest(result.Errors);
         }
 
         [HttpPost("login")]
@@ -70,7 +74,7 @@ namespace BlogLab.web.Controllers
                         UserName = applicationUserIdentity.Username,
                         Email = applicationUserIdentity.Email,
                         Fullname = applicationUserIdentity.Fullname,
-                        Token = _tokenServices.CreateToken(applicationUserIdentity)
+                        Token = _tokenService.CreateToken(applicationUserIdentity)
                     };
 
                     return Ok(applicatonUser);
