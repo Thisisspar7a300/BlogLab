@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BlogLab.web.Controllers
+namespace BlogLab.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -14,7 +14,8 @@ namespace BlogLab.web.Controllers
         private readonly UserManager<ApplicationUserIdentity> _userManager;
         private readonly SignInManager<ApplicationUserIdentity> _signInManager;
 
-        public AccountController(ITokenService tokenService,
+        public AccountController(
+            ITokenService tokenService,
             UserManager<ApplicationUserIdentity> userManager,
             SignInManager<ApplicationUserIdentity> signInManager)
         {
@@ -39,14 +40,16 @@ namespace BlogLab.web.Controllers
             {
                 applicationUserIdentity = await _userManager.FindByNameAsync(applicationUserCreate.Username);
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 ApplicationUser applicationUser = new ApplicationUser()
                 {
                     ApplicationUserId = applicationUserIdentity.ApplicationUserId,
-                    UserName = applicationUserIdentity.Username,
+                    Username = applicationUserIdentity.Username,
                     Email = applicationUserIdentity.Email,
                     Fullname = applicationUserIdentity.Fullname,
                     Token = _tokenService.CreateToken(applicationUserIdentity)
                 };
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
                 return Ok(applicationUser);
             }
@@ -58,30 +61,32 @@ namespace BlogLab.web.Controllers
 
         public async Task<ActionResult<ApplicationUser>> Login(ApplicationUserLogin applicationUserLogin)
         {
-            var applicationUserIdentity = await _userManager.FindByEmailAsync(applicationUserLogin.Username);
+            var applicationUserIdentity = await _userManager.FindByNameAsync(applicationUserLogin.Username);
 
-            if (applicationUserIdentity == null) 
+            if (applicationUserIdentity != null)
             {
-                var results = await _signInManager.CheckPasswordSignInAsync(
+                var result = await _signInManager.CheckPasswordSignInAsync(
                     applicationUserIdentity,
                     applicationUserLogin.Password, false);
 
-                if (results.Succeeded)
+                if (result.Succeeded)
                 {
-                    ApplicationUser applicatonUser = new ApplicationUser
+                    ApplicationUser applicationUser = new ApplicationUser
                     {
                         ApplicationUserId = applicationUserIdentity.ApplicationUserId,
-                        UserName = applicationUserIdentity.Username,
+                        Username = applicationUserIdentity.Username,
                         Email = applicationUserIdentity.Email,
                         Fullname = applicationUserIdentity.Fullname,
                         Token = _tokenService.CreateToken(applicationUserIdentity)
                     };
 
-                    return Ok(applicatonUser);
+                    return Ok(applicationUser);
                 }
-            }
-            return BadRequest("Invalid login attempt");
-        }
 
+            }
+
+            return BadRequest("Invalid login attempt.");
+        }
     }
+
 }

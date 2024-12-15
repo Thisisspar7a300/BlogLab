@@ -1,4 +1,5 @@
-﻿using BlogLab.Models.Blog;
+﻿using BlogLab.Models.Account;
+using BlogLab.Models.Blog;
 using BlogLab.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection.Metadata;
 
-namespace BlogLab.web.Controllers
+namespace BlogLab.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -34,8 +35,9 @@ namespace BlogLab.web.Controllers
                 var photo = await _photoRepository.GetAsync(blogCreate.PhotoId.Value);
 
                 if (photo.ApplicationUserid != applicationUserId)
+                    
                 {
-                    return BadRequest("You did not up load the photo");
+                    return BadRequest("You did not upload the photo.");
                 }
             }
 
@@ -45,12 +47,11 @@ namespace BlogLab.web.Controllers
         }
 
         [HttpGet]
-
-        public async Task<ActionResult<PagedResults<Blog>>> GetAll([FromQuery] BlogPagging blogPagging)
+        public async Task<ActionResult<PagedResults<Blog>>> GetAll([FromQuery] BlogPaging blogPaging)
         {
-            var blogs = await _blogRepository.GetAllAsnyc(blogPagging);
+            var blogs = await _blogRepository.GetAllAsnyc(blogPaging);
 
-            return blogs;
+            return Ok(blogs);
         }
 
         [HttpGet("{blogId}")]
@@ -62,33 +63,32 @@ namespace BlogLab.web.Controllers
             return Ok(blog);
         }
 
-        [HttpGet("User/{applicationUserId}")]
-
-        public async Task<ActionResult<List<Blog>>>GetApplicationUserId(int applicationUserId)
+        [HttpGet("user/{applicationUserId}")]
+        public async Task<ActionResult<List<Blog>>> GetByApplicationUserId(int applicationUserId)
         {
-            var blog = await _blogRepository.GetAllByUserIdAsync(applicationUserId);
+            var blogs = await _blogRepository.GetAllByUserIdAsync(applicationUserId);
 
-            return Ok(blog);
+            return Ok(blogs);
         }
 
 
         [HttpGet("famous")]
         public async Task<ActionResult<List<Blog>>> GetAllFamous()
         {
-            var blog = await _blogRepository.GetAllFamousAsync();
+            var blogs = await _blogRepository.GetAllFamousAsync();
 
-            return Ok(blog);
+            return Ok(blogs);
         }
 
         [Authorize]
-        [HttpGet("{blogId}")]
+        [HttpDelete("{blogId}")]
         public async Task<ActionResult<int>> Delete(int blogId)
         {
             int applicationUserId = int.Parse(User.Claims.First(i => i.Type == JwtRegisteredClaimNames.NameId).Value);
 
             var foundBlog = await _blogRepository.GetAsync(blogId);
 
-            if (foundBlog == null) return BadRequest("Blog does not exist");
+            if (foundBlog == null) return BadRequest("Blog does not exist.");
 
             if (foundBlog.ApplicationUserId == applicationUserId)
             {
@@ -98,8 +98,10 @@ namespace BlogLab.web.Controllers
             }
             else
             {
-                return BadRequest("You didn't create this blog");
+                return BadRequest("You didn't create this blog.");
             }
         }
+
     }
+
 }

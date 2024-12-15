@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlogLab.Models.Blog
 {
-    public class BlogPagging
+    public class BlogPaging
     {
         public int page { get; set; } = 1;
 

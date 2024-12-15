@@ -17,11 +17,15 @@ using System.Text;
 public class Startup
 {
     public IConfiguration Configuration { get; }
+
     public Startup(IConfiguration config)
     {
         JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         Configuration = config;
     }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services)
     {
         services.Configure<CloudinaryOptions>(Configuration.GetSection("CloudinaryOptions"));
@@ -46,7 +50,7 @@ public class Startup
         services.AddControllers();
         services.AddCors();
 
-        services.AddAuthentication(options =>
+        _ = services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -58,6 +62,7 @@ public class Startup
                 {
                     options.RequireHttpsMetadata = false;
                     options.SaveToken = true;
+#pragma warning disable CS8604 // Possible null reference argument.
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
@@ -69,10 +74,14 @@ public class Startup
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
                         ClockSkew = TimeSpan.Zero
                     };
+#pragma warning restore CS8604 // Possible null reference argument.
                 }
             );
+
+
     }
 
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
@@ -82,7 +91,7 @@ public class Startup
 
         app.ConfigureExceptionHandler();
 
-        
+
         app.UseRouting();
 
         if (env.IsDevelopment())
@@ -90,16 +99,17 @@ public class Startup
             app.UseCors(options => options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
         }
         else
-        { 
+        {
             app.UseCors();
         }
-        
+
         app.UseAuthentication();
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
         {
-            endpoints.MapControllers(); // Map controller routes
+            endpoints.MapControllers();
         });
     }
 }
+

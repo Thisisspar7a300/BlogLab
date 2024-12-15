@@ -38,7 +38,7 @@ namespace BlogLab.Repository
             return affectedRows;
         }
 
-        public async Task<PagedResults<Blog>> GetAllAsnyc(BlogPagging blogPagging)
+        public async Task<PagedResults<Blog>> GetAllAsnyc(BlogPaging blogPagging)
         {
             var results = new PagedResults<Blog>();
 

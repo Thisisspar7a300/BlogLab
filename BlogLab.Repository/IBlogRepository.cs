@@ -12,7 +12,7 @@ namespace BlogLab.Repository
     {
         public Task<Blog> UpsertAsync(BlogCreate blogCreate, int applicationUserId);
 
-        public Task<PagedResults<Blog>> GetAllAsnyc(BlogPagging blogPagging);
+        public Task<PagedResults<Blog>> GetAllAsnyc(BlogPaging blogPagging);
 
         public Task<Blog> GetAsync(int blogId);
 
